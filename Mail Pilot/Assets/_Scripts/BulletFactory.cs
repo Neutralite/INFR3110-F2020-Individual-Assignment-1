@@ -29,6 +29,14 @@ public class BulletFactory
         newBullet.name = "Bullet " + newBullet.GetHashCode();
         return newBullet;
     }
+
+    public GameObject CreatePopper(Vector3 location = new Vector3())
+    {
+        var newBullet = MonoBehaviour.Instantiate(playerController.popper, location, Quaternion.identity);
+        newBullet.name = "Popper " + newBullet.GetHashCode();
+        return newBullet;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

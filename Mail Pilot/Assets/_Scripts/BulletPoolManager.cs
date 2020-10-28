@@ -34,10 +34,10 @@ public class BulletPoolManager
         m_BulletPool = new Queue<GameObject>();
         
         //adds a series of bullets to the Bullet Pool
-        BuildTilePool();
+        BuildBulletPool();
     }
 
-    private void BuildTilePool()
+    private void BuildBulletPool()
     {
         for (var count = 0; count < playerController.MaxBullets; count++)
         {
@@ -69,7 +69,7 @@ public class BulletPoolManager
     //returns pool size
     public int BulletPoolSize()
     {
-        return playerController.MaxBullets;
+        return m_BulletPool.Count;
     }
 
     // checks if the pool is empty

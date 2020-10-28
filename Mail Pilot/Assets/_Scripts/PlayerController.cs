@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public GameController gameController;
     public Transform bulletSpawn;
     public GameObject bullet;
+    public GameObject popper;
     public int MaxBullets;
 
     // private instance variables
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
                 //Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
                 GameObject temp = BulletPoolManager.Instance().GetBullet();
                 temp.transform.position = bulletSpawn.position;
+                temp.transform.parent = gameController.transform;
             }
 
         }
