@@ -32,9 +32,9 @@ public class BulletController : MonoBehaviour
     {
         if (transform.position.y >= boundary.Top)
         {
-            //TODO: This code needs to change to use the BulletPoolManager's
-            //TODO: ResetBullet function which will return the bullet to the pool
-            Destroy(this.gameObject);
+            //ResetBullet function which will return the bullet to the pool
+            BulletPoolManager.Instance().ResetBullet(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 }

@@ -2,37 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Bonus - make this class a Singleton!
-
 [System.Serializable]
-public class BulletPoolManager : MonoBehaviour
+public class BulletPoolManager
 {
-    public GameObject bullet;
+    private PlayerController playerController;
+    private static BulletPoolManager m_bulletPoolInstance = null;
 
-    //TODO: create a structure to contain a collection of bullets
+    //a structure to contain a collection of bullets
+    private Queue<GameObject> m_BulletPool;
+
+    private BulletPoolManager()
+    {
+        Start();
+    }
+
+    public static BulletPoolManager Instance()
+    {
+        if (m_bulletPoolInstance == null)
+        {
+            m_bulletPoolInstance = new BulletPoolManager();
+        }
+
+        return m_bulletPoolInstance;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // TODO: add a series of bullets to the Bullet Pool
-    }
+        playerController = GameObject.FindObjectOfType<PlayerController>();
 
-    // Update is called once per frame
-    void Update()
-    {
+        m_BulletPool = new Queue<GameObject>();
         
+        //adds a series of bullets to the Bullet Pool
+        BuildTilePool();
     }
 
-    //TODO: modify this function to return a bullet from the Pool
+    private void BuildTilePool()
+    {
+        for (var count = 0; count < playerController.MaxBullets; count++)
+        {
+            var tempBullet = BulletFactory.Instance().CreateBullet();
+            tempBullet.SetActive(false);
+            m_BulletPool.Enqueue(tempBullet);
+        }
+    }
+
+    //This function returns a bullet from the Pool
     public GameObject GetBullet()
     {
-
-        return bullet;
+        if (BulletPoolEmpty())
+        {
+            return BulletFactory.Instance().CreateBullet();
+        }
+        var tempBullet = m_BulletPool.Dequeue();
+        tempBullet.SetActive(true);
+        return tempBullet;
     }
 
-    //TODO: modify this function to reset/return a bullet back to the Pool 
+    //this function resets/returns a bullet back to the Pool 
     public void ResetBullet(GameObject bullet)
     {
+        bullet.SetActive(false);
+        m_BulletPool.Enqueue(bullet);
+    }
 
+    //returns pool size
+    public int BulletPoolSize()
+    {
+        return playerController.MaxBullets;
+    }
+
+    // checks if the pool is empty
+    public bool BulletPoolEmpty()
+    {
+        if (m_BulletPool.Count == 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public GameController gameController;
     public Transform bulletSpawn;
     public GameObject bullet;
+    public int MaxBullets;
 
     // private instance variables
     private AudioSource _thunderSound;
@@ -121,7 +122,9 @@ public class PlayerController : MonoBehaviour
                 //TODO: GetBullet function which will return a reference to a 
                 //TODO: bullet object. 
                 //TODO: Ensure you position the new bullet at the bulletSpawn position
-                Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
+                //Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
+                GameObject temp = BulletPoolManager.Instance().GetBullet();
+                temp.transform.position = bulletSpawn.position;
             }
 
         }
